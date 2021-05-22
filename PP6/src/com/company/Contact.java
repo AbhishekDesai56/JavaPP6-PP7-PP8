@@ -73,4 +73,15 @@ public class Contact {
     public String getEmail() {
         return email;
     }
+
+    public Contact(String firstname, String lastname, String address, String city, String state, int zip, int phonenumber, String email) {
+        setFirstname(firstname);
+        setLastname(lastname);
+        setAddress(address);
+        setCity(city);
+        setState(state);
+        setZip(zip);
+        setPhonenumber(phonenumber);
+        setEmail(email);
+    }
 }
