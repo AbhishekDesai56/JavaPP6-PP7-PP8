@@ -37,6 +37,7 @@ public class AddressBookMain {
         String email = sc.nextLine();
 
         Contact contact = new Contact(firstname, lastname, address, city, state, zip, phonenumber, email);
+        contactList.add(contact);
     }
     public static void main(String args[]) {
         System.out.println("Welcome to Address Book");
