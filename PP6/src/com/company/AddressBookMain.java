@@ -133,6 +133,29 @@ public class AddressBookMain {
         }
     }
 
+    public void deleteContact() {
+        boolean isDeleted = false;
+        System.out.println("Enter your full name to search:");
+        fullname = sc.nextLine();
+
+        for (int i=0; i < contactList.size(); i++) {
+            Contact contact = contactList.get(i);
+            if (fullname.equals(contact.getFullname())) {
+                contact.display();
+                contactList.remove(i);
+                isDeleted=true;
+            }
+        }
+
+        if(isDeleted == true) {
+            System.out.println("Record Deleted Successfully");
+        }
+        else {
+            System.out.println("Record is not Present");
+        }
+
+    }
+
     private void Replace(String replaceString, String fullName, String replaceCode) {
         for (Contact contact : contactList) {
             if (fullName.equals(contact.getFullname())) {
@@ -219,9 +242,10 @@ public class AddressBookMain {
                 case 2:
                     addressBookMain.editContact();
                     break;
+                case 3:
+                    addressBookMain.deleteContact();
                 default:
                     System.exit(0);
-
             }
 
         }
