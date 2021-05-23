@@ -3,17 +3,21 @@ package com.company;
 import java.util.*;
 
 public class AddressBookMain {
+    private static Scanner sc;
     List<Contact> contactList;
+    static int selectOption;
+    private HashMap<String, String> addressBookNameList;
     private boolean isRecordPresent =false;
     String fullname;
-    String addressBookName ="ad1";
+    String addressBookName;
 
     public AddressBookMain() {
-        contactList = new ArrayList<Contact>();
+        contactList = new ArrayList<>();
+        addressBookNameList = new HashMap<String, String>();
     }
-    Scanner sc =new Scanner(System.in);
 
     private void createContact() {
+        sc.nextLine();
         System.out.println("Enter your Firstname:");
         String firstname = sc.nextLine();
 
@@ -38,13 +42,12 @@ public class AddressBookMain {
         System.out.println("Enter your Email:");
         String email = sc.nextLine();
 
-
-
         fullname= firstname + " " + lastname;
-        if(DuplicateCheck(fullname)) {
+        if(duplicateCheck(fullname)) {
             Contact contact = new Contact(addressBookName, firstname, lastname, address, city, state, zip, phonenumber, email);
             contactList.add(contact);
             System.out.println("Record Inserted Successfully");
+            System.out.println("\n");
             displayAndSearchContact("");
         }
         else {
@@ -53,7 +56,7 @@ public class AddressBookMain {
         }
     }
 
-    private boolean DuplicateCheck(String fullName) {
+    private boolean duplicateCheck(String fullName) {
         for (Contact contact : contactList) {
             if (fullName.equals(contact.getFullname())) {
                 return false;
@@ -63,6 +66,7 @@ public class AddressBookMain {
     }
 
     private void editContact() {
+        sc =new Scanner(System.in);
         String selectOption;
         String replaceString;
         System.out.println("Enter your full name to search:");
@@ -81,51 +85,51 @@ public class AddressBookMain {
                     System.out.println("Enter your FirstName");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "firstName");
+                    replace(replaceString, fullname, "firstName");
                     isRecordPresent = false;
                     break;
                 case "2":
                     System.out.println("Enter your LastName");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "lastName");
+                    replace(replaceString, fullname, "lastName");
                     isRecordPresent = false;
                     break;
                 case "3":
                     System.out.println("Enter your Address");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "address");
+                    replace(replaceString, fullname, "address");
                     break;
                 case "4":
                     System.out.println("Enter your City");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "city");
+                    replace(replaceString, fullname, "city");
                     break;
                 case "5":
                     System.out.println("Enter your State");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "state");
+                    replace(replaceString, fullname, "state");
                     break;
                 case "6":
                     System.out.println("Enter your Zip");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "zip");
+                    replace(replaceString, fullname, "zip");
                     break;
                 case "7":
                     System.out.println("Enter your Phone number");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "phoneNumber");
+                    replace(replaceString, fullname, "phoneNumber");
                     break;
                 case "8":
                     System.out.println("Enter your Email");
                     replaceString = sc.nextLine();
                     System.out.println("\n");
-                    Replace(replaceString, fullname, "email");
+                    replace(replaceString, fullname, "email");
                     break;
                 default:
                     isRecordPresent = false;
@@ -135,13 +139,14 @@ public class AddressBookMain {
     }
 
     private void deleteContact() {
+        sc = new Scanner(System.in);
         boolean isDeleted = false;
         System.out.println("Enter your full name to search:");
         fullname = sc.nextLine();
 
         for (int i=0; i < contactList.size(); i++) {
             Contact contact = contactList.get(i);
-            if (fullname.equals(contact.getFullname())) {
+            if (fullname.equals(contact.getFullname()) && addressBookName.equals(contact.getAddressBookName())) {
                 contact.display();
                 contactList.remove(i);
                 isDeleted=true;
@@ -150,6 +155,7 @@ public class AddressBookMain {
 
         if(isDeleted == true) {
             System.out.println("Record Deleted Successfully");
+            System.out.println("\n");
         }
         else {
             System.out.println("Record is not Present");
@@ -157,48 +163,48 @@ public class AddressBookMain {
 
     }
 
-    private void Replace(String replaceString, String fullName, String replaceCode) {
+    private void replace(String replaceString, String fullName, String replaceCode) {
         for (Contact contact : contactList) {
             if (fullName.equals(contact.getFullname())) {
                 switch (replaceCode) {
                     case "firstName":
                         contact.setFirstname(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact("");
                         break;
                     case "lastName":
                         contact.setLastname(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact("");
                         break;
                     case "address":
                         contact.setAddress(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact(fullName);
                         break;
                     case "city":
                         contact.setCity(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact(fullName);
                         break;
                     case "state":
                         contact.setState(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact(fullName);
                         break;
                     case "zip":
                         contact.setZip(Integer.parseInt(replaceString));
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact(fullName);
                         break;
                     case "phoneNumber":
                         contact.setPhonenumber(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact(fullName);
                         break;
                     case "email":
                         contact.setEmail(replaceString);
-                        SuccessMessage();
+                        successMessage();
                         displayAndSearchContact(fullName);
                         break;
                 }
@@ -206,47 +212,102 @@ public class AddressBookMain {
         }
     }
 
-    private void SuccessMessage() {
+    private void createAddressBook() {
+        sc =new Scanner(System.in);
+        System.out.println("Enter your AddressBook Name:");
+        addressBookName=sc.nextLine();
+        addressBookNameList.put(addressBookName, addressBookName);
+        System.out.println("AddressBook is added Successfully");
+    }
+
+    private void successMessage() {
         System.out.println("Record Updated Successfully");
+        System.out.println("\n");
     }
 
     private void displayAndSearchContact(String fullname) {
         for (int i=0; i < contactList.size(); i++) {
             Contact contact =contactList.get(i);
             if(!fullname.isEmpty() || !fullname.isBlank()) {
-                if (fullname.equals(contact.getFullname())) {
+                if (fullname.equals(contact.getFullname()) && addressBookName.equals(contact.getAddressBookName())) {
                     contact.display();
                     isRecordPresent = true;
                 }
             }
-            else {
+            else if(addressBookName.equals(contact.getAddressBookName())) {
                 contact.display();
+            }
+        }
+
+        if(contactList.size() == 0) {
+            System.out.println("Record is not present");
+        }
+    }
+
+    private void addContactList() {
+        boolean isCheck = true;
+        selectAddressBook();
+        System.out.println("Welcome to Address Book:" +addressBookName);
+        while (isCheck) {
+            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Exit");
+            selectOption = sc.nextInt();
+
+            switch (selectOption) {
+                case 1:
+                    createContact();
+                    break;
+                case 2:
+                    editContact();
+                    break;
+                case 3:
+                    deleteContact();
+                case 4:
+                    displayAndSearchContact("");
+                case 5:
+                    isCheck = false;
+                    addressBookName="";
+                    break;
+                default:
+                    isCheck = false;
+                    addressBookName="";
             }
         }
     }
 
+    private void selectAddressBook() {
+        System.out.println("Please Select your address book name for below list, Which you want to save contact: ");
+        for (String addressBookName : addressBookNameList.keySet()) {
+            System.out.println("Value: " + addressBookNameList.get(addressBookName));
+        }
+        addressBookName = sc.nextLine();
+        boolean isCheck = addressBookNameList.containsValue(addressBookName);
+        if(!isCheck) {
+            System.out.println("Please select valid address book name");
+            System.out.println("\n");
+            selectAddressBook();
+        }
+    }
     public static void main(String args[]) {
-        int selectOption;
-        Scanner sc1 = new Scanner(System.in);
         AddressBookMain addressBookMain = new AddressBookMain();
-        System.out.println("Welcome to Address Book");
-        while(true) {
-            System.out.println("Please select for the below option" +  "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact");
-            selectOption = sc1.nextInt();
+        sc =new Scanner(System.in);
 
+        while(true) {
+            System.out.println("Please select below Option:" + "\n1. Create AddressBook" + "\n2. Contact" + "\n3. Exit");
+            selectOption = sc.nextInt();
             switch (selectOption) {
                 case 1:
-                    addressBookMain.createContact();
+                    addressBookMain.createAddressBook();
                     break;
                 case 2:
-                    addressBookMain.editContact();
+                    addressBookMain.addContactList();
                     break;
                 case 3:
-                    addressBookMain.deleteContact();
+                    System.exit(0);
+                    break;
                 default:
                     System.exit(0);
+                    break;
             }
-
         }
     }
 }
