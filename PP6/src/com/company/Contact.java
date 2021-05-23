@@ -1,6 +1,7 @@
 package com.company;
 
 public class Contact {
+    private String addressBookName;
     private String firstname;
     private String lastname;
     private String address;
@@ -9,6 +10,10 @@ public class Contact {
     private int zip;
     private String phonenumber;
     private String email;
+
+    public void setAddressBookName(String addressBookName) {
+        this.addressBookName = addressBookName;
+    }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
@@ -40,6 +45,10 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAddressBookName() {
+        return addressBookName;
     }
 
     public String getFirstname() {
@@ -76,7 +85,8 @@ public class Contact {
         return email;
     }
 
-    public Contact(String firstname, String lastname, String address, String city, String state, int zip, String phonenumber, String email) {
+    public Contact(String addressBookName,String firstname, String lastname, String address, String city, String state, int zip, String phonenumber, String email) {
+        setAddressBookName(addressBookName);
         setFirstname(firstname);
         setLastname(lastname);
         setAddress(address);
@@ -89,6 +99,6 @@ public class Contact {
 
     public void display() {
             String fullName = firstname + " " + lastname;
-            System.out.println("Fullname: " + fullName + " | " + "Firstname: " + firstname + " | " + "Lastname: " + lastname + " | " + "Address: " + address + " | " + "City: " + city + " | " + "State: " + state + " | " + "ZipCode: " + zip  + " | " + "Phonenumber: " + phonenumber + " | " + "Email: " + email + "\n");
+            System.out.println("AddressBookName: " + addressBookName + " | " + "Fullname: " + fullName + " | " + "Firstname: " + firstname + " | " + "Lastname: " + lastname + " | " + "Address: " + address + " | " + "City: " + city + " | " + "State: " + state + " | " + "ZipCode: " + zip  + " | " + "Phonenumber: " + phonenumber + " | " + "Email: " + email + "\n");
     }
 }

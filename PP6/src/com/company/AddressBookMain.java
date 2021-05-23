@@ -1,19 +1,19 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBookMain {
     List<Contact> contactList;
-    boolean isRecordPresent =false;
+    private boolean isRecordPresent =false;
     String fullname;
+    String addressBookName ="ad1";
 
     public AddressBookMain() {
         contactList = new ArrayList<Contact>();
     }
     Scanner sc =new Scanner(System.in);
-    public void createContact() {
+
+    private void createContact() {
         System.out.println("Enter your Firstname:");
         String firstname = sc.nextLine();
 
@@ -42,13 +42,14 @@ public class AddressBookMain {
 
         fullname= firstname + " " + lastname;
         if(DuplicateCheck(fullname)) {
-            Contact contact = new Contact(firstname, lastname, address, city, state, zip, phonenumber, email);
+            Contact contact = new Contact(addressBookName, firstname, lastname, address, city, state, zip, phonenumber, email);
             contactList.add(contact);
             System.out.println("Record Inserted Successfully");
             displayAndSearchContact("");
         }
         else {
             System.out.println("FullName is already Exists");
+            displayAndSearchContact("");
         }
     }
 
@@ -61,7 +62,7 @@ public class AddressBookMain {
         return true;
     }
 
-    public void editContact() {
+    private void editContact() {
         String selectOption;
         String replaceString;
         System.out.println("Enter your full name to search:");
@@ -133,7 +134,7 @@ public class AddressBookMain {
         }
     }
 
-    public void deleteContact() {
+    private void deleteContact() {
         boolean isDeleted = false;
         System.out.println("Enter your full name to search:");
         fullname = sc.nextLine();
@@ -209,7 +210,7 @@ public class AddressBookMain {
         System.out.println("Record Updated Successfully");
     }
 
-    public void displayAndSearchContact(String fullname) {
+    private void displayAndSearchContact(String fullname) {
         for (int i=0; i < contactList.size(); i++) {
             Contact contact =contactList.get(i);
             if(!fullname.isEmpty() || !fullname.isBlank()) {
@@ -223,8 +224,6 @@ public class AddressBookMain {
             }
         }
     }
-
-
 
     public static void main(String args[]) {
         int selectOption;
