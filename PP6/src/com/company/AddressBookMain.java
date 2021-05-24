@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
     private static Scanner sc;
@@ -57,12 +58,7 @@ public class AddressBookMain {
     }
 
     private boolean duplicateCheck(String fullName) {
-        for (Contact contact : contactList) {
-            if (fullName.equals(contact.getFullname())) {
-                return false;
-            }
-        }
-        return true;
+        return contactList.stream().allMatch(n -> n.getFullname()==fullName);
     }
 
     private void editContact() {
@@ -287,6 +283,7 @@ public class AddressBookMain {
             selectAddressBook();
         }
     }
+
     public static void main(String args[]) {
         AddressBookMain addressBookMain = new AddressBookMain();
         sc =new Scanner(System.in);
