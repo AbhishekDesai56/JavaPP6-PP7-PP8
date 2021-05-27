@@ -1,0 +1,8 @@
+com/practice/UserMobileTest.java
+ com.practice.UserMobileTest
+com/practice/UserEmailTest.java
+ com.practice.UserEmailTest
+com/practice/UserValidatorTest.java
+ com.practice.UserValidatorTest
+com/practice/UserPasswordTest.java
+ com.practice.UserPasswordTest
