@@ -1,47 +1,50 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class AddressBookMain {
-    private static Scanner sc;
     List<Contact> contactList;
     static int selectOption;
     private HashMap<String, String> addressBookNameList;
     private boolean isRecordPresent =false;
     String fullname;
     String addressBookName;
+    InputStreamReader r=new InputStreamReader(System.in);
+    BufferedReader br=new BufferedReader(r);
 
     public AddressBookMain() {
         contactList = new ArrayList<>();
         addressBookNameList = new HashMap<String, String>();
     }
 
-    private void createContact() {
-        sc.nextLine();
+    private void createContact() throws IOException {
         System.out.println("Enter your Firstname:");
-        String firstname = sc.nextLine();
+        String firstname = br.readLine();
 
         System.out.println("Enter your Lastname:");
-        String lastname = sc.nextLine();
+        String lastname = br.readLine();
 
         System.out.println("Enter your Address:");
-        String address = sc.nextLine();
+        String address = br.readLine();
 
         System.out.println("Enter your City:");
-        String city = sc.nextLine();
+        String city = br.readLine();
 
         System.out.println("Enter your State:");
-        String state = sc.nextLine();
+        String state = br.readLine();
 
         System.out.println("Enter your ZipCode:");
-        int zip = Integer.parseInt(sc.nextLine(),16);
+        int zip = Integer.parseInt(br.readLine());
 
         System.out.println("Enter your Phone number:");
-        String phonenumber = sc.nextLine();
+        String phonenumber = br.readLine();
 
         System.out.println("Enter your Email:");
-        String email = sc.nextLine();
+        String email = br.readLine();
 
         fullname= firstname + " " + lastname;
         if(duplicateCheck(fullname)) {
@@ -58,15 +61,14 @@ public class AddressBookMain {
     }
 
     private boolean duplicateCheck(String fullName) {
-        return contactList.stream().allMatch(n -> n.getFullname()==fullName);
+        return contactList.stream().allMatch(n -> !n.getFullname().equals(fullName));
     }
 
-    private void editContact() {
-        sc =new Scanner(System.in);
+    private void editContact() throws IOException {
         String selectOption;
         String replaceString;
         System.out.println("Enter your full name to search:");
-        fullname = sc.nextLine();
+        fullname = br.readLine();
         displayAndSearchContact(fullname);
         if (!isRecordPresent) {
             System.out.println("Record is not Present, Please Enter valid fullname");
@@ -74,56 +76,56 @@ public class AddressBookMain {
         }
         while(isRecordPresent) {
             System.out.println("Please Enter your choose number which field you what to edit to exit please Enter 0: \n1. FirstName" + "\n2. LastName" + "\n3. Address" + "\n4. City" + "\n5. State" + "\n6. Zip" + "\n7. Phonenumber" + "\n8. email");
-            selectOption = sc.nextLine();
+            selectOption = br.readLine();
 
             switch (selectOption) {
                 case "1":
                     System.out.println("Enter your FirstName");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "firstName");
                     isRecordPresent = false;
                     break;
                 case "2":
                     System.out.println("Enter your LastName");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "lastName");
                     isRecordPresent = false;
                     break;
                 case "3":
                     System.out.println("Enter your Address");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "address");
                     break;
                 case "4":
                     System.out.println("Enter your City");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "city");
                     break;
                 case "5":
                     System.out.println("Enter your State");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "state");
                     break;
                 case "6":
                     System.out.println("Enter your Zip");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "zip");
                     break;
                 case "7":
                     System.out.println("Enter your Phone number");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "phoneNumber");
                     break;
                 case "8":
                     System.out.println("Enter your Email");
-                    replaceString = sc.nextLine();
+                    replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "email");
                     break;
@@ -134,11 +136,10 @@ public class AddressBookMain {
         }
     }
 
-    private void deleteContact() {
-        sc = new Scanner(System.in);
+    private void deleteContact() throws IOException {
         boolean isDeleted = false;
         System.out.println("Enter your full name to search:");
-        fullname = sc.nextLine();
+        fullname = br.readLine();
 
         for (int i=0; i < contactList.size(); i++) {
             Contact contact = contactList.get(i);
@@ -208,10 +209,9 @@ public class AddressBookMain {
         }
     }
 
-    private void createAddressBook() {
-        sc =new Scanner(System.in);
+    private void createAddressBook() throws IOException {
         System.out.println("Enter your AddressBook Name:");
-        addressBookName=sc.nextLine();
+        addressBookName=br.readLine();
         addressBookNameList.put(addressBookName, addressBookName);
         System.out.println("AddressBook is added Successfully");
     }
@@ -240,13 +240,13 @@ public class AddressBookMain {
         }
     }
 
-    private void addContactList() {
+    private void addContactList() throws IOException {
         boolean isCheck = true;
         selectAddressBook();
         System.out.println("Welcome to Address Book:" +addressBookName);
         while (isCheck) {
-            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Exit");
-            selectOption = sc.nextInt();
+            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Search Record" + "\n6. Exit");
+            selectOption = Integer.parseInt(br.readLine());
 
             switch (selectOption) {
                 case 1:
@@ -257,9 +257,13 @@ public class AddressBookMain {
                     break;
                 case 3:
                     deleteContact();
+                    break;
                 case 4:
                     displayAndSearchContact("");
+                    break;
                 case 5:
+                    searchRecord();
+                case 6:
                     isCheck = false;
                     addressBookName="";
                     break;
@@ -270,12 +274,75 @@ public class AddressBookMain {
         }
     }
 
-    private void selectAddressBook() {
+    private void searchRecord() throws IOException {
+        //UC-8
+        String cityName = "", stateName = "";
+        List<Contact> result = null;
+        System.out.println("Do you want to search by City, Please enter Y-Yes and N-No");
+        String cityResult = br.readLine();
+
+        if(!cityResult.isEmpty() && !cityResult.isBlank()) {
+            if (cityResult.equals("Y")) {
+                System.out.println("Please Enter the city name:");
+                cityName = br.readLine();
+            }
+        }
+
+        System.out.println("Do you want to search by State, Please enter Y-Yes and N-No");
+        String stateResult = br.readLine();
+
+        if(!stateResult.isEmpty() && !stateResult.isBlank()) {
+            if (stateResult.equals("Y")) {
+                System.out.println("Please Enter the state name:");
+                stateName = br.readLine();
+            }
+        }
+
+        System.out.println("Please Enter the person name you wait to search");
+        String searchPerson = br.readLine();
+
+        String finalCityName = cityName;
+        String finalStateName = stateName;
+        if(searchPerson.isEmpty() && searchPerson.isBlank()) {
+            System.out.println("Please Enter the search Person Name");
+        } else if (!searchPerson.isBlank() && !finalCityName.isBlank() && !finalStateName.isBlank() &&
+                !searchPerson.isEmpty() && !finalCityName.isEmpty() && !finalStateName.isEmpty()) {
+            result = contactList.stream()
+                    .filter(e -> e.getCity().equals(finalCityName))
+                    .filter(e -> e.getState().equals(finalStateName))
+                    .filter(e -> e.getFullname().equals(searchPerson))
+                    .collect(Collectors.toList());
+            for (int i = 0; i < result.size(); i++) {
+                System.out.println(result.get(i).getFullname() + " | " + result.get(i).getCity() + " | " +
+                        result.get(i).getAddress() + " | " + result.get(i).getPhonenumber());
+            }
+        } else if (!searchPerson.isBlank() && !finalCityName.isBlank() && !searchPerson.isEmpty() && !finalCityName.isEmpty()) {
+            result = contactList.stream()
+                    .filter(e -> e.getCity().equals(finalCityName))
+                    .filter(e -> e.getFullname().equals(searchPerson))
+                    .collect(Collectors.toList());
+            for (int i = 0; i < result.size(); i++) {
+                System.out.println(result.get(i).getFullname() + " | " + result.get(i).getCity() + " | " +
+                        result.get(i).getAddress() + " | " + result.get(i).getPhonenumber());
+            }
+        } else if (!searchPerson.isBlank() && !finalStateName.isBlank() && !searchPerson.isEmpty() && !finalStateName.isEmpty()) {
+            result = contactList.stream()
+                    .filter(e -> e.getState().equals(finalStateName))
+                    .filter(e -> e.getFullname().equals(searchPerson))
+                    .collect(Collectors.toList());
+            for (int i = 0; i < result.size(); i++) {
+                System.out.println(result.get(i).getFullname() + " | " + result.get(i).getCity() + " | " +
+                        result.get(i).getAddress() + " | " + result.get(i).getPhonenumber());
+            }
+        }
+    }
+
+    private void selectAddressBook() throws IOException {
         System.out.println("Please Select your address book name for below list, Which you want to save contact: ");
         for (String addressBookName : addressBookNameList.keySet()) {
             System.out.println("Value: " + addressBookNameList.get(addressBookName));
         }
-        addressBookName = sc.nextLine();
+        addressBookName = br.readLine();
         boolean isCheck = addressBookNameList.containsValue(addressBookName);
         if(!isCheck) {
             System.out.println("Please select valid address book name");
@@ -284,13 +351,13 @@ public class AddressBookMain {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
+        InputStreamReader r=new InputStreamReader(System.in);
+        BufferedReader br=new BufferedReader(r);
         AddressBookMain addressBookMain = new AddressBookMain();
-        sc =new Scanner(System.in);
-
         while(true) {
             System.out.println("Please select below Option:" + "\n1. Create AddressBook" + "\n2. Contact" + "\n3. Exit");
-            selectOption = sc.nextInt();
+            selectOption = Integer.parseInt(br.readLine());
             switch (selectOption) {
                 case 1:
                     addressBookMain.createAddressBook();
