@@ -261,8 +261,9 @@ public class AddressBookMain {
         boolean isCheck = true;
         selectAddressBook();
         System.out.println("Welcome to Address Book:" +addressBookName);
+        System.out.println("Welcome to Address Book:" +addressBookName);
         while (isCheck) {
-            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Search Record" + "\n6. View Record" + "\n7. Exit");
+            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Search Record" + "\n6. View Record" + "\n7. Sort Data" + "\n8. Exit");
             selectOption = Integer.parseInt(br.readLine());
 
             switch (selectOption) {
@@ -283,7 +284,11 @@ public class AddressBookMain {
                     break;
                 case 6:
                     viewRecord();
+                    break;
                 case 7:
+                    sortData();
+                    break;
+                case 8:
                     isCheck = false;
                     addressBookName="";
                     break;
@@ -338,9 +343,24 @@ public class AddressBookMain {
         }
     }
 
-    private void getCountOfCityAndState()  {
-
+    private void sortData() throws IOException {
+        List<Contact> sortName = null;
+        System.out.println("Enter your choice you want to sort \n1. Person Name");
+        int sortChoice = Integer.parseInt(br.readLine());
+        switch (sortChoice) {
+            case 1:
+                sortName = contactList.stream().sorted(Comparator.comparing(Contact::getFullname)).collect(Collectors.toList());
+                break;
+            default:
+                break;
+        }
+       
+        for (int i=0; i < sortName.size(); i++) {
+            Contact contact = sortName.get(i);
+            contact.display();
+        }
     }
+
     private void searchRecord(boolean isViewOrSearchRecord) throws IOException {
         List<Contact> result = null;
 
