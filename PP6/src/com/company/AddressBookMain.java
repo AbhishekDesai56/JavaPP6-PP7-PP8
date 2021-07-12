@@ -345,11 +345,20 @@ public class AddressBookMain {
 
     private void sortData() throws IOException {
         List<Contact> sortName = null;
-        System.out.println("Enter your choice you want to sort \n1. Person Name");
+        System.out.println("Enter your choice you want to sort \n1. Person Name \n2. City \n3.State \n4.Zip");
         int sortChoice = Integer.parseInt(br.readLine());
         switch (sortChoice) {
             case 1:
                 sortName = contactList.stream().sorted(Comparator.comparing(Contact::getFullname)).collect(Collectors.toList());
+                break;
+            case 2:
+                sortName = contactList.stream().sorted(Comparator.comparing(Contact::getCity)).collect(Collectors.toList());
+                break;
+            case 3:
+                sortName = contactList.stream().sorted(Comparator.comparing(Contact::getState)).collect(Collectors.toList());
+                break;
+            case 4:
+                sortName = contactList.stream().sorted(Comparator.comparing(Contact::getZip)).collect(Collectors.toList());
                 break;
             default:
                 break;
