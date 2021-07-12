@@ -13,12 +13,18 @@ public class AddressBookMain {
     private boolean isRecordPresent =false;
     String fullname;
     String addressBookName;
+    String cityName = "", stateName = "", searchPerson = "";
+    boolean isViewRecord = false;
+    Map<String, List<String>> dictionaryCity;
+    Map<String, List<String>> dictionaryState;
     InputStreamReader r=new InputStreamReader(System.in);
     BufferedReader br=new BufferedReader(r);
 
     public AddressBookMain() {
         contactList = new ArrayList<>();
         addressBookNameList = new HashMap<String, String>();
+        dictionaryCity =  new HashMap<>();
+        dictionaryState = new HashMap<>();
     }
 
     private void createContact() throws IOException {
@@ -53,6 +59,11 @@ public class AddressBookMain {
             System.out.println("Record Inserted Successfully");
             System.out.println("\n");
             displayAndSearchContact("");
+            List<String> lists = new ArrayList<>();
+            String listName = firstname + " " + lastname;
+            lists.add(listName);
+            dictionaryCity.put(city,lists);
+            dictionaryState.put(state, lists);
         }
         else {
             System.out.println("FullName is already Exists");
@@ -104,12 +115,18 @@ public class AddressBookMain {
                     replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "city");
+                    List<String> lists = new ArrayList<>();
+                    lists.add(fullname);
+                    dictionaryCity.put(replaceString, lists);
                     break;
                 case "5":
                     System.out.println("Enter your State");
                     replaceString = br.readLine();
                     System.out.println("\n");
                     replace(replaceString, fullname, "state");
+                    List<String> listState = new ArrayList<>();
+                    listState.add(fullname);
+                    dictionaryState.put(replaceString, listState);
                     break;
                 case "6":
                     System.out.println("Enter your Zip");
@@ -245,7 +262,7 @@ public class AddressBookMain {
         selectAddressBook();
         System.out.println("Welcome to Address Book:" +addressBookName);
         while (isCheck) {
-            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Search Record" + "\n6. Exit");
+            System.out.println("Please select for the below option" + "\n1. To Create Contact" + "\n2. To Edit Contact" + "\n3. To Delete Contact" + "\n4. Display Record" + "\n5. Search Record" + "\n6. View Record" + "\n7. Exit");
             selectOption = Integer.parseInt(br.readLine());
 
             switch (selectOption) {
@@ -262,8 +279,11 @@ public class AddressBookMain {
                     displayAndSearchContact("");
                     break;
                 case 5:
-                    searchRecord();
+                    searchRecord(isViewRecord);
+                    break;
                 case 6:
+                    viewRecord();
+                case 7:
                     isCheck = false;
                     addressBookName="";
                     break;
@@ -274,10 +294,7 @@ public class AddressBookMain {
         }
     }
 
-    private void searchRecord() throws IOException {
-        //UC-8
-        String cityName = "", stateName = "";
-        List<Contact> result = null;
+    private void askUserWhatToView() throws IOException {
         System.out.println("Do you want to search by City, Please enter Y-Yes and N-No");
         String cityResult = br.readLine();
 
@@ -299,7 +316,34 @@ public class AddressBookMain {
         }
 
         System.out.println("Please Enter the person name you wait to search");
-        String searchPerson = br.readLine();
+        searchPerson = br.readLine();
+    }
+
+    private void viewRecord() throws IOException {
+        boolean results;
+        askUserWhatToView();
+        if (!cityName.equals("")) {
+            results = Optional.ofNullable(dictionaryCity.get(cityName))
+                    .map(l -> l.stream().anyMatch(s -> s.contains(searchPerson)))
+                    .orElse(false);
+        } else {
+            results = Optional.ofNullable(dictionaryState.get(stateName))
+                    .map(l -> l.stream().anyMatch(s -> s.contains(searchPerson)))
+                    .orElse(false);
+        }
+
+        if(results) {
+            isViewRecord = true;
+            searchRecord(isViewRecord);
+        }
+    }
+
+    private void searchRecord(boolean isViewOrSearchRecord) throws IOException {
+        List<Contact> result = null;
+
+        if(!isViewOrSearchRecord) {
+            askUserWhatToView();
+        }
 
         String finalCityName = cityName;
         String finalStateName = stateName;
@@ -335,6 +379,10 @@ public class AddressBookMain {
                         result.get(i).getAddress() + " | " + result.get(i).getPhonenumber());
             }
         }
+        cityName = "";
+        stateName = "";
+        searchPerson = "";
+        isViewRecord = false;
     }
 
     private void selectAddressBook() throws IOException {
