@@ -338,11 +338,24 @@ public class AddressBookMain {
         }
     }
 
+    private void getCountOfCityAndState()  {
+
+    }
     private void searchRecord(boolean isViewOrSearchRecord) throws IOException {
         List<Contact> result = null;
 
         if(!isViewOrSearchRecord) {
             askUserWhatToView();
+        }
+        if(!cityName.equals("")) {
+            long cityCount = contactList.stream().filter(e -> e.getCity().equals(cityName)).count();
+            System.out.println("City Count: " +cityCount);
+            System.out.println(" ");
+        }
+        else {
+            long stateCount = contactList.stream().filter(e -> e.getState().equals(stateName)).count();
+            System.out.println("State Count: " +stateCount);
+            System.out.println(" ");
         }
 
         String finalCityName = cityName;
